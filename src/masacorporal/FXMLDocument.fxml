@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="512.0" prefWidth="502.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="masacorporal.FXMLDocumentController">
+    <children>
+        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+      <RadioButton fx:id="obesidad" layoutX="288.0" layoutY="334.0" mnemonicParsing="false" text="Obesidad (IMC &gt; 30)" />
+      <RadioButton fx:id="sobrepeso" layoutX="288.0" layoutY="362.0" mnemonicParsing="false" text="Sobrepeso (25 &lt; IMC &lt; 29.9)" />
+      <RadioButton fx:id="normal" layoutX="288.0" layoutY="391.0" mnemonicParsing="false" text="Normal (18.5 &lt;  IMC &lt; 24.9)" />
+      <RadioButton fx:id="delgadez" layoutX="288.0" layoutY="420.0" mnemonicParsing="false" text="Extra-delgadez (IMC &lt; 18.5)" />
+      <Line endX="100.0" fill="BLACK" layoutX="380.0" layoutY="50.0" startX="-340.0" stroke="#727272" strokeLineCap="BUTT" strokeMiterLimit="20.0" />
+      <Text fill="#021583" layoutX="98.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ÍNDICE DE MASA CORPORAL (IMC)">
+         <font>
+            <Font name="Arial Black" size="17.0" />
+         </font>
+      </Text>
+      <Line endX="100.0" fill="BLACK" layoutX="380.0" layoutY="210.0" startX="-340.0" stroke="#727272" strokeLineCap="BUTT" strokeMiterLimit="20.0" />
+      <Text layoutX="58.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ALTURA:" />
+      <Text layoutX="178.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cm" />
+      <TextField fx:id="altura" layoutX="109.0" layoutY="74.0" prefHeight="25.0" prefWidth="58.0" />
+      <Text layoutX="59.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PESO:" />
+      <TextField fx:id="peso" layoutX="109.0" layoutY="116.0" prefHeight="25.0" prefWidth="58.0" />
+      <Text layoutX="174.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="kilos" />
+      <Button fx:id="calcular" layoutX="251.0" layoutY="149.0" mnemonicParsing="false" onAction="#calcularIMC" prefHeight="25.0" prefWidth="94.0" text="Calcular IMC" />
+      <Text layoutX="97.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RESULTADO:" />
+      <TextField fx:id="resultado" editable="false" layoutX="174.0" layoutY="252.0" prefHeight="25.0" prefWidth="68.0" />
+    </children>
+</AnchorPane>
