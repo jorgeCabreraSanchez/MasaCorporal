@@ -34,7 +34,7 @@
       <Button fx:id="calcular" layoutX="251.0" layoutY="209.0" mnemonicParsing="false" onAction="#calcularIMC" prefHeight="25.0" prefWidth="94.0" text="Calcular IMC" />
       <Text layoutX="102.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RESULTADO:" />
       <TextField fx:id="resultado" editable="false" layoutX="179.0" layoutY="322.0" prefHeight="25.0" prefWidth="68.0" />
-      <Slider fx:id="alturaSlider" blockIncrement="20.0" layoutX="66.0" layoutY="118.0" majorTickUnit="40.0" max="180.0" min="20.0" minorTickCount="14" showTickLabels="true" showTickMarks="true" />
+      <Slider fx:id="alturaSlider" blockIncrement="20.0" layoutX="66.0" layoutY="118.0" majorTickUnit="40.0" max="180.0" min="20.0" minorTickCount="5" onMouseDragged="#cambiarAlturaSlider" onMouseReleased="#cambiarAlturaSlider" showTickLabels="true" showTickMarks="true" />
       <ScrollBar fx:id="pesoscrollbar" layoutX="76.0" layoutY="222.0" max="220.0" min="40.0" />
     </children>
 </AnchorPane>

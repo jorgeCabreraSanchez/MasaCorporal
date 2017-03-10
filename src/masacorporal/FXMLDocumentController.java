@@ -20,6 +20,10 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 
 /**
  *
@@ -54,6 +58,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void calcularIMC(ActionEvent event) {
+        DecimalFormat formato = new DecimalFormat("0.0");
         Double altura = Double.parseDouble(this.altura.getText());
         Double peso = Double.parseDouble(this.peso.getText());
 
@@ -61,12 +66,20 @@ public class FXMLDocumentController implements Initializable {
             this.resultado.setText("Error");
         } else {
 
-            double resultado = peso / Math.pow(altura / 100, 2);
-            BigDecimal big = new BigDecimal(resultado);
-            big = big.setScale(1, RoundingMode.HALF_UP);
-            this.resultado.setText(String.valueOf(big));
+            String resultado = formato.format(peso / Math.pow(altura / 100, 2));
+            this.resultado.setText(resultado);
+            
+            String[] resultado1 = resultado.split("");
+            resultado = "";
+            for (int i = 0; i < resultado1.length; i++) {
 
-            double IMC = Double.parseDouble(this.resultado.getText());
+                if (resultado1[i].equalsIgnoreCase(",")) {
+                    resultado1[i] = ".";
+                }
+                resultado += resultado1[i];
+            }
+
+            double IMC = Double.parseDouble(resultado);
             if (IMC > 30.0) {
                 this.obesidad.setSelected(true);
             } else if (IMC > 25 && IMC < 29.9) {
@@ -85,21 +98,28 @@ public class FXMLDocumentController implements Initializable {
         Double altura = Double.parseDouble(this.altura.getText());
         Double maxAltura = this.alturaSlider.getMax();
         Double minAltura = this.alturaSlider.getMin();
-        
+
         if (altura > maxAltura) {
             altura = maxAltura;
             this.altura.setText(String.valueOf(maxAltura));
-        } else if ( altura < minAltura){
+        } else if (altura < minAltura) {
             altura = minAltura;
             this.altura.setText(String.valueOf(minAltura));
         }
-            
+
         this.alturaSlider.setValue(altura);
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+    }
+
+    @FXML
+    private void cambiarAlturaSlider(MouseEvent event) {
+        DecimalFormat formato = new DecimalFormat("0");
+        this.altura.setText(String.valueOf(formato.format(this.alturaSlider.getValue())));
     }
 
 }
