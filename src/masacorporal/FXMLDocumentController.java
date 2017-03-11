@@ -21,6 +21,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -68,7 +69,7 @@ public class FXMLDocumentController implements Initializable {
 
             String resultado = formato.format(peso / Math.pow(altura / 100, 2));
             this.resultado.setText(resultado);
-            
+
             String[] resultado1 = resultado.split("");
             resultado = "";
             for (int i = 0; i < resultado1.length; i++) {
@@ -82,9 +83,9 @@ public class FXMLDocumentController implements Initializable {
             double IMC = Double.parseDouble(resultado);
             if (IMC > 30.0) {
                 this.obesidad.setSelected(true);
-            } else if (IMC > 25 && IMC < 29.9) {
+            } else if (IMC >= 25 && IMC < 29.9) {
                 this.sobrepeso.setSelected(true);
-            } else if (IMC > 18.5 && IMC < 24.9) {
+            } else if (IMC >= 18.5 && IMC < 24.9) {
                 this.normal.setSelected(true);
             } else if (IMC < 18.5) {
                 this.delgadez.setSelected(true);
@@ -111,8 +112,19 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    @FXML
+    private void cambiarPeso(ActionEvent event) {
+        Double peso = Double.parseDouble(this.peso.getText());
+        Double minPeso = this.pesoscrollbar.getMin();
+        Double maxPeso = this.pesoscrollbar.getMax();
+
+        if (peso > maxPeso) {
+            peso = maxPeso;
+        } else if (peso < minPeso) {
+            peso = minPeso;
+        }
+        this.peso.setText(String.valueOf(peso));
+        this.pesoscrollbar.setValue(peso);
 
     }
 
@@ -120,6 +132,17 @@ public class FXMLDocumentController implements Initializable {
     private void cambiarAlturaSlider(MouseEvent event) {
         DecimalFormat formato = new DecimalFormat("0");
         this.altura.setText(String.valueOf(formato.format(this.alturaSlider.getValue())));
+    }
+
+    @FXML
+    private void cambiarPesoScrollBar(MouseEvent event) {
+        DecimalFormat formato = new DecimalFormat("0");
+        this.peso.setText(String.valueOf(formato.format(this.pesoscrollbar.getValue())));
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
     }
 
 }

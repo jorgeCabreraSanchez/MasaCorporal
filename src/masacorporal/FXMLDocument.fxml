@@ -15,8 +15,8 @@
          <toggleGroup>
             <ToggleGroup fx:id="estado" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="sobrepeso" layoutX="289.0" layoutY="402.0" mnemonicParsing="false" text="Sobrepeso (25 &lt; IMC &lt; 29.9)" toggleGroup="$estado" />
-      <RadioButton fx:id="normal" layoutX="289.0" layoutY="431.0" mnemonicParsing="false" text="Normal (18.5 &lt;  IMC &lt; 24.9)" toggleGroup="$estado" />
+      <RadioButton fx:id="sobrepeso" layoutX="289.0" layoutY="402.0" mnemonicParsing="false" text="Sobrepeso (25 &lt;= IMC &lt; 29.9)" toggleGroup="$estado" />
+      <RadioButton fx:id="normal" layoutX="289.0" layoutY="431.0" mnemonicParsing="false" text="Normal (18.5 &lt;=  IMC &lt; 24.9)" toggleGroup="$estado" />
       <RadioButton fx:id="delgadez" layoutX="289.0" layoutY="460.0" mnemonicParsing="false" text="Extra-delgadez (IMC &lt; 18.5)" toggleGroup="$estado" />
       <Line endX="100.0" fill="BLACK" layoutX="380.0" layoutY="50.0" startX="-340.0" stroke="#727272" strokeLineCap="BUTT" strokeMiterLimit="20.0" />
       <Text fill="#021583" layoutX="98.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ÍNDICE DE MASA CORPORAL (IMC)">
@@ -29,12 +29,12 @@
       <Text layoutX="178.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cm" />
       <TextField fx:id="altura" layoutX="109.0" layoutY="74.0" onAction="#cambiarAltura" prefHeight="25.0" prefWidth="58.0" />
       <Text layoutX="57.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PESO:" />
-      <TextField fx:id="peso" layoutX="97.0" layoutY="174.0" prefHeight="25.0" prefWidth="58.0" />
+      <TextField fx:id="peso" layoutX="97.0" layoutY="174.0" onAction="#cambiarPeso" prefHeight="25.0" prefWidth="58.0" />
       <Text layoutX="164.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="kilos" />
       <Button fx:id="calcular" layoutX="251.0" layoutY="209.0" mnemonicParsing="false" onAction="#calcularIMC" prefHeight="25.0" prefWidth="94.0" text="Calcular IMC" />
       <Text layoutX="102.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RESULTADO:" />
       <TextField fx:id="resultado" editable="false" layoutX="179.0" layoutY="322.0" prefHeight="25.0" prefWidth="68.0" />
-      <Slider fx:id="alturaSlider" blockIncrement="20.0" layoutX="66.0" layoutY="118.0" majorTickUnit="40.0" max="180.0" min="20.0" minorTickCount="5" onMouseDragged="#cambiarAlturaSlider" onMouseReleased="#cambiarAlturaSlider" showTickLabels="true" showTickMarks="true" />
-      <ScrollBar fx:id="pesoscrollbar" layoutX="76.0" layoutY="222.0" max="220.0" min="40.0" />
+      <Slider fx:id="alturaSlider" blockIncrement="30.0" layoutX="66.0" layoutY="118.0" majorTickUnit="60.0" max="220.0" min="40.0" minorTickCount="5" onMouseDragged="#cambiarAlturaSlider" onMouseReleased="#cambiarAlturaSlider" showTickLabels="true" showTickMarks="true" />
+      <ScrollBar fx:id="pesoscrollbar" layoutX="76.0" layoutY="222.0" max="180.0" min="20.0" onMouseDragged="#cambiarPesoScrollBar" onMouseReleased="#cambiarPesoScrollBar" />
     </children>
 </AnchorPane>
