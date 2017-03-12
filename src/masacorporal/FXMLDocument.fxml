@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.shape.*?>
 <?import java.lang.*?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="512.0" prefWidth="502.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="masacorporal.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="512.0" prefWidth="502.0" stylesheets="@colores.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="masacorporal.FXMLDocumentController">
     <children>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
       <RadioButton fx:id="obesidad" layoutX="289.0" layoutY="374.0" mnemonicParsing="false" text="Obesidad (IMC &gt; 30)">
