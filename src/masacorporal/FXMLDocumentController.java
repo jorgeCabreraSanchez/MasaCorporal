@@ -10,17 +10,26 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
@@ -58,11 +67,18 @@ public class FXMLDocumentController implements Initializable {
     private Slider alturaSlider;
     @FXML
     private AnchorPane fondo;
+    @FXML
+    private ListView<String> pesoDescripcion;
 
+    ObservableList<String> descripcion = FXCollections.observableArrayList("(IMC > 30)", "(25 <= IMC < 29.9)", "(18.5 <=  IMC < 24.9)", "(IMC < 18.5)");
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.altura.setText("40");
         this.peso.setText("20");
+        this.pesoDescripcion.setItems(descripcion);
+        String bind1 = this.alturaSlider.
+        this.altura.textProperty().bindBidirectional(sliderValue);
     }
 
     @FXML
@@ -73,7 +89,7 @@ public class FXMLDocumentController implements Initializable {
             cambiarPeso();
         } else if (event.getSource() == this.alturaSlider) {
             cambiarAlturaSlider();
-        } else if (event.getSource() == this.pesoscrollbar){
+        } else if (event.getSource() == this.pesoscrollbar) {
             cambiarPesoScrollBar();
         }
 
@@ -120,15 +136,27 @@ public class FXMLDocumentController implements Initializable {
         String resultado = formato.format(peso / Math.pow(altura / 100, 2));
         this.resultado.setText(resultado);
 
+        int num = 0;
         double IMC = cambiarComa(resultado);
         if (IMC > 30.0) {
+            num = 1;
             this.obesidad.setSelected(true);
+            this.resultado.setStyle("-fx-background-color: red");
         } else if (IMC >= 25 && IMC < 29.9) {
             this.sobrepeso.setSelected(true);
+            num = 2;
+            this.resultado.setStyle("-fx-background-color: white");
         } else if (IMC >= 18.5 && IMC < 24.9) {
             this.normal.setSelected(true);
+            num = 3;
+            this.resultado.setStyle("-fx-background-color: white");
         } else if (IMC < 18.5) {
             this.delgadez.setSelected(true);
+            num = 4;
+            this.resultado.setStyle("-fx-background-color: red");
+        }
+        if (num != 0){
+        this.pesoDescripcion.getSelectionModel().select(num);
         }
 
     }
@@ -155,5 +183,7 @@ public class FXMLDocumentController implements Initializable {
         }
         return Double.parseDouble(resultado);
     }
+
+    
 
 }
