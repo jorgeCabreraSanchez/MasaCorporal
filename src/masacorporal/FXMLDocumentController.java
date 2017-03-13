@@ -25,6 +25,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.TouchEvent;
+import javafx.scene.layout.AnchorPane;
 
 /**
  *
@@ -49,53 +51,36 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField resultado;
     @FXML
-    private Button calcular;
-    @FXML
     private ToggleGroup estado;
     @FXML
     private ScrollBar pesoscrollbar;
     @FXML
     private Slider alturaSlider;
-
     @FXML
-    private void calcularIMC(ActionEvent event) {
-        DecimalFormat formato = new DecimalFormat("0.0");
-        Double altura = Double.parseDouble(this.altura.getText());
-        Double peso = Double.parseDouble(this.peso.getText());
+    private AnchorPane fondo;
 
-        if (altura.isNaN() || peso.isNaN()) {
-            this.resultado.setText("Error");
-        } else {
-
-            String resultado = formato.format(peso / Math.pow(altura / 100, 2));
-            this.resultado.setText(resultado);
-
-            String[] resultado1 = resultado.split("");
-            resultado = "";
-            for (int i = 0; i < resultado1.length; i++) {
-
-                if (resultado1[i].equalsIgnoreCase(",")) {
-                    resultado1[i] = ".";
-                }
-                resultado += resultado1[i];
-            }
-
-            double IMC = Double.parseDouble(resultado);
-            if (IMC > 30.0) {
-                this.obesidad.setSelected(true);
-            } else if (IMC >= 25 && IMC < 29.9) {
-                this.sobrepeso.setSelected(true);
-            } else if (IMC >= 18.5 && IMC < 24.9) {
-                this.normal.setSelected(true);
-            } else if (IMC < 18.5) {
-                this.delgadez.setSelected(true);
-            }
-
-        }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        this.altura.setText("40");
+        this.peso.setText("20");
     }
 
     @FXML
-    private void cambiarAltura(ActionEvent event) {
+    private void ejecutar(MouseEvent event) {
+        if (event.getSource() == this.altura) {
+            cambiarAltura();
+        } else if (event.getSource() == this.peso) {
+            cambiarPeso();
+        } else if (event.getSource() == this.alturaSlider) {
+            cambiarAlturaSlider();
+        } else if (event.getSource() == this.pesoscrollbar){
+            cambiarPesoScrollBar();
+        }
+
+        calcularIMC();
+    }
+
+    private void cambiarAltura() {
         Double altura = Double.parseDouble(this.altura.getText());
         Double maxAltura = this.alturaSlider.getMax();
         Double minAltura = this.alturaSlider.getMin();
@@ -112,8 +97,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @FXML
-    private void cambiarPeso(ActionEvent event) {
+    private void cambiarPeso() {
         Double peso = Double.parseDouble(this.peso.getText());
         Double minPeso = this.pesoscrollbar.getMin();
         Double maxPeso = this.pesoscrollbar.getMax();
@@ -128,21 +112,48 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @FXML
-    private void cambiarAlturaSlider(MouseEvent event) {
+    private void calcularIMC() {
+        DecimalFormat formato = new DecimalFormat("0.0");
+        Double altura = Double.parseDouble(this.altura.getText());
+        Double peso = Double.parseDouble(this.peso.getText());
+
+        String resultado = formato.format(peso / Math.pow(altura / 100, 2));
+        this.resultado.setText(resultado);
+
+        double IMC = cambiarComa(resultado);
+        if (IMC > 30.0) {
+            this.obesidad.setSelected(true);
+        } else if (IMC >= 25 && IMC < 29.9) {
+            this.sobrepeso.setSelected(true);
+        } else if (IMC >= 18.5 && IMC < 24.9) {
+            this.normal.setSelected(true);
+        } else if (IMC < 18.5) {
+            this.delgadez.setSelected(true);
+        }
+
+    }
+
+    private void cambiarAlturaSlider() {
         DecimalFormat formato = new DecimalFormat("0");
         this.altura.setText(String.valueOf(formato.format(this.alturaSlider.getValue())));
     }
 
-    @FXML
-    private void cambiarPesoScrollBar(MouseEvent event) {
+    private void cambiarPesoScrollBar() {
         DecimalFormat formato = new DecimalFormat("0");
         this.peso.setText(String.valueOf(formato.format(this.pesoscrollbar.getValue())));
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    private double cambiarComa(String resultado) {
+        String[] resultado1 = resultado.split("");
+        resultado = "";
+        for (int i = 0; i < resultado1.length; i++) {
 
+            if (resultado1[i].equalsIgnoreCase(",")) {
+                resultado1[i] = ".";
+            }
+            resultado += resultado1[i];
+        }
+        return Double.parseDouble(resultado);
     }
 
 }
