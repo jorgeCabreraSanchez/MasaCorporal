@@ -28,9 +28,9 @@
       <Line endX="100.0" fill="BLACK" layoutX="380.0" layoutY="275.0" startX="-340.0" stroke="#727272" strokeLineCap="BUTT" strokeMiterLimit="20.0" />
       <Text layoutX="58.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ALTURA:" />
       <Text layoutX="178.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cm" />
-      <TextField fx:id="altura" layoutX="109.0" layoutY="74.0" onKeyPressed="#ejecutar" prefHeight="25.0" prefWidth="58.0" />
+      <TextField fx:id="altura" layoutX="109.0" layoutY="74.0" onAction="#ejecutar" prefHeight="25.0" prefWidth="58.0" />
       <Text layoutX="57.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PESO:" />
-      <TextField fx:id="peso" layoutX="97.0" layoutY="174.0" prefHeight="25.0" prefWidth="58.0" />
+      <TextField fx:id="peso" layoutX="97.0" layoutY="174.0" onAction="#ejecutar" prefHeight="25.0" prefWidth="58.0" />
       <Text layoutX="164.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="kilos" />
       <Text layoutX="179.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RESULTADO:" />
       <TextField fx:id="resultado" editable="false" layoutX="256.0" layoutY="295.0" prefHeight="25.0" prefWidth="68.0" />

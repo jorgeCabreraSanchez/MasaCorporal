@@ -9,18 +9,23 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -40,6 +45,7 @@ import javafx.scene.input.SwipeEvent;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -86,12 +92,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void ejecutar(MouseEvent event) {
-        if (event.getSource() == this.altura) {
-
-            cambiarAltura();
-        } else if (event.getSource() == this.peso) {
-            cambiarPeso();
-        } else if (event.getSource() == this.alturaSlider) {
+        if (event.getSource() == this.alturaSlider) {
             cambiarAlturaSlider();
         } else if (event.getSource() == this.pesoscrollbar) {
             cambiarPesoScrollBar();
@@ -100,8 +101,8 @@ public class FXMLDocumentController implements Initializable {
         calcularIMC();
     }
 
-    private void cambiarAltura() {
-        Double altura = Double.parseDouble(this.altura.getText());
+    private void cambiarAltura() {    
+        Double altura = comprobar(this.altura.getText(), "altura");
         Double maxAltura = this.alturaSlider.getMax();
         Double minAltura = this.alturaSlider.getMin();
 
@@ -114,11 +115,56 @@ public class FXMLDocumentController implements Initializable {
         }
 
         this.alturaSlider.setValue(altura);
+    }
 
+    private Double comprobar(String altura, String tipo) {
+        Double respuesta = 0.0;
+        try {
+            respuesta = Double.parseDouble(altura);
+        } catch (NumberFormatException e) {
+            try {
+                respuesta = cambiarComa(altura);
+
+            } catch (Exception ej) {
+                respuesta = 0.0;
+                // Alerta
+                if (tipo.equalsIgnoreCase("altura")) {
+                    generarErrorAltura();
+                } else if (tipo.equalsIgnoreCase("peso")) {
+                    generarErrorPeso();
+                }
+            }
+        }
+
+        return respuesta;
+    }
+
+    private void generarErrorAltura() {
+        Alert Alerta = new Alert(Alert.AlertType.ERROR);
+        Alerta.setTitle("Error");
+        Alerta.setHeaderText("Error generado por la altura");
+        Alerta.setContentText("Ha puesto un dato en la altura inadecuado");
+        Optional<ButtonType> response = Alerta.showAndWait();
+        if (response.isPresent() && ButtonType.OK == response.get()) {
+            this.altura.setText("");
+//            Alerta.getButtonTypes();
+        }
+    }
+
+    private void generarErrorPeso() {
+        Alert Alerta = new Alert(Alert.AlertType.ERROR);
+        Alerta.setTitle("Error");
+        Alerta.setHeaderText("Error generado por la altura");
+        Alerta.setContentText("Ha puesto un dato en la altura inadecuado");
+        Optional<ButtonType> response = Alerta.showAndWait();
+        if (response.isPresent() && ButtonType.OK == response.get()) {
+            this.altura.setText("");
+//            Alerta.getButtonTypes();
+        }
     }
 
     private void cambiarPeso() {
-        Double peso = Double.parseDouble(this.peso.getText());
+        Double peso = comprobar(this.peso.getText(), "peso");
         Double minPeso = this.pesoscrollbar.getMin();
         Double maxPeso = this.pesoscrollbar.getMax();
 
@@ -134,7 +180,7 @@ public class FXMLDocumentController implements Initializable {
 
     private void calcularIMC() {
         DecimalFormat formato = new DecimalFormat("0.0");
-        Double altura = Double.parseDouble(this.altura.getText());
+        Double altura = comprobar(this.altura.getText(), "altura");
         Double peso = Double.parseDouble(this.peso.getText());
 
         String resultado = formato.format(peso / Math.pow(altura / 100, 2));
@@ -166,12 +212,12 @@ public class FXMLDocumentController implements Initializable {
 
     private void cambiarAlturaSlider() {
         DecimalFormat formato = new DecimalFormat("0");
-        this.altura.setText(String.valueOf(formato.format(this.alturaSlider.getValue())));
+        this.altura.setText(formato.format(this.alturaSlider.getValue()));
     }
 
     private void cambiarPesoScrollBar() {
         DecimalFormat formato = new DecimalFormat("0");
-        this.peso.setText(String.valueOf(formato.format(this.pesoscrollbar.getValue())));
+        this.peso.setText(formato.format(this.pesoscrollbar.getValue()));
     }
 
     private double cambiarComa(String resultado) {
@@ -187,21 +233,25 @@ public class FXMLDocumentController implements Initializable {
         return Double.parseDouble(resultado);
     }
 
+//    private void ejecutar(InputMethodEvent event) {
+//        if (event.getSource() == this.altura) {
+//            cambiarAltura();
+//        } else if (event.getSource() == this.peso) {
+//            cambiarPeso();
+//        }
+//
+//        calcularIMC();
+//    }
     @FXML
-    private void ejecutar(KeyEvent event) {
+    private void ejecutar(ActionEvent event) {
         if (event.getSource() == this.altura) {
-            if (event.getCode() == KeyCode.TAB) {
-                cambiarAltura();
-            }
+            cambiarAltura();
         } else if (event.getSource() == this.peso) {
             cambiarPeso();
-        } else if (event.getSource() == this.alturaSlider) {
-            cambiarAlturaSlider();
-        } else if (event.getSource() == this.pesoscrollbar) {
-            cambiarPesoScrollBar();
         }
 
-//        calcularIMC();
+        calcularIMC();
+
     }
 
 }
