@@ -30,11 +30,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.RotateEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.SwipeEvent;
 import javafx.scene.input.TouchEvent;
+import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -71,19 +75,19 @@ public class FXMLDocumentController implements Initializable {
     private ListView<String> pesoDescripcion;
 
     ObservableList<String> descripcion = FXCollections.observableArrayList("(IMC > 30)", "(25 <= IMC < 29.9)", "(18.5 <=  IMC < 24.9)", "(IMC < 18.5)");
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.altura.setText("40");
         this.peso.setText("20");
         this.pesoDescripcion.setItems(descripcion);
-        String bind1 = this.alturaSlider.
-        this.altura.textProperty().bindBidirectional(sliderValue);
+
     }
 
     @FXML
     private void ejecutar(MouseEvent event) {
         if (event.getSource() == this.altura) {
+
             cambiarAltura();
         } else if (event.getSource() == this.peso) {
             cambiarPeso();
@@ -139,25 +143,24 @@ public class FXMLDocumentController implements Initializable {
         int num = 0;
         double IMC = cambiarComa(resultado);
         if (IMC > 30.0) {
-            num = 1;
+            num = 0;
             this.obesidad.setSelected(true);
             this.resultado.setStyle("-fx-background-color: red");
         } else if (IMC >= 25 && IMC < 29.9) {
             this.sobrepeso.setSelected(true);
-            num = 2;
+            num = 1;
             this.resultado.setStyle("-fx-background-color: white");
         } else if (IMC >= 18.5 && IMC < 24.9) {
             this.normal.setSelected(true);
-            num = 3;
+            num = 2;
             this.resultado.setStyle("-fx-background-color: white");
         } else if (IMC < 18.5) {
             this.delgadez.setSelected(true);
-            num = 4;
+            num = 3;
             this.resultado.setStyle("-fx-background-color: red");
         }
-        if (num != 0){
+
         this.pesoDescripcion.getSelectionModel().select(num);
-        }
 
     }
 
@@ -184,6 +187,21 @@ public class FXMLDocumentController implements Initializable {
         return Double.parseDouble(resultado);
     }
 
-    
+    @FXML
+    private void ejecutar(KeyEvent event) {
+        if (event.getSource() == this.altura) {
+            if (event.getCode() == KeyCode.TAB) {
+                cambiarAltura();
+            }
+        } else if (event.getSource() == this.peso) {
+            cambiarPeso();
+        } else if (event.getSource() == this.alturaSlider) {
+            cambiarAlturaSlider();
+        } else if (event.getSource() == this.pesoscrollbar) {
+            cambiarPesoScrollBar();
+        }
+
+//        calcularIMC();
+    }
 
 }
